@@ -6,9 +6,11 @@ import json
 import copy
 import time
 
-def checkLevel(lvl):
 
-    def newbots(bots, delete, x, y, Dir, Tun, prevbot, direction=["UP", "DOWN", "LEFT", "RIGHT"]):
+def checkLevel(lvl):
+    def newbots(
+        bots, delete, x, y, Dir, Tun, prevbot, direction=["UP", "DOWN", "LEFT", "RIGHT"]
+    ):
         for dire in direction:
             if not [x, y, dire, Dir, Tun] in delete:
                 bots.append(Bot(x, y, dire, prevbot, Dir, Tun))
@@ -22,7 +24,18 @@ def checkLevel(lvl):
     level = lvl
     checking = True
     xstart, ystart = levelSetStart(level)
-    listBots = newbots([], [], xstart, ystart, 0, False, None, Bot(xstart, ystart, "STAY", None, 0, False).possibleDirection((ystart//40), (xstart//40), level))
+    listBots = newbots(
+        [],
+        [],
+        xstart,
+        ystart,
+        0,
+        False,
+        None,
+        Bot(xstart, ystart, "STAY", None, 0, False).possibleDirection(
+            (ystart // 40), (xstart // 40), level
+        ),
+    )
     deletedBots = []
     start = time.time()
     pathSolving = False
@@ -47,14 +60,35 @@ def checkLevel(lvl):
 
             if type(data) == list:
                 deletedBot = listBots.pop(i)
-                listBots = newbots(listBots, deletedBots, bot.x, bot.y, bot.statusDir, bot.statusTunnel, deletedBot, data)
-                listDeletedBot = [deletedBot.xstart, deletedBot.ystart, deletedBot.dirstart, deletedBot.statusDirStart, deletedBot.statusTunnelStart]
-                
+                listBots = newbots(
+                    listBots,
+                    deletedBots,
+                    bot.x,
+                    bot.y,
+                    bot.statusDir,
+                    bot.statusTunnel,
+                    deletedBot,
+                    data,
+                )
+                listDeletedBot = [
+                    deletedBot.xstart,
+                    deletedBot.ystart,
+                    deletedBot.dirstart,
+                    deletedBot.statusDirStart,
+                    deletedBot.statusTunnelStart,
+                ]
+
                 if not listDeletedBot in deletedBots:
                     deletedBots.append(listDeletedBot)
             if data == "DEAD":
                 deletedBot = listBots.pop(i)
-                listDeletedBot = [deletedBot.xstart, deletedBot.ystart, deletedBot.dirstart, deletedBot.statusDirStart, deletedBot.statusTunnelStart]   
+                listDeletedBot = [
+                    deletedBot.xstart,
+                    deletedBot.ystart,
+                    deletedBot.dirstart,
+                    deletedBot.statusDirStart,
+                    deletedBot.statusTunnelStart,
+                ]
                 if not listDeletedBot in deletedBots:
                     deletedBots.append(listDeletedBot)
 
@@ -79,7 +113,6 @@ def checkLevel(lvl):
             if event.type == pygame.QUIT:
                 pathSolving = False
 
-        
         graphic.show(win, level, solver, 0, False, False, False)
         solver.show(win)
         data = solver.update(level)
@@ -88,10 +121,9 @@ def checkLevel(lvl):
             solver.direction = path[indexDir]
         if data == "END":
             pathSolving = False
-            return True
+            return "FINISH"
 
         pygame.display.update()
-
 
 
 if __name__ == "__main__":
@@ -106,4 +138,4 @@ if __name__ == "__main__":
 
     level = list_level[6]
     print(checkLevel(level))
-    
+

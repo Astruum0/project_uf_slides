@@ -4,6 +4,7 @@ from caracter import Caracter
 from functions import Convert, resetLevel
 from graphics import engine
 from check import checkLevel
+from saveLevel import saveLevel
 import copy
 import json
 
@@ -121,11 +122,9 @@ class Game:
 
                 if event.type == MOUSEBUTTONDOWN and event.pos[0] < 600 and event.pos[1] < 600:
                     if event.button == 1:
-                        self.level[event.pos[1]//40][event.pos[0] //
-                                                     40] = self.selectedItem
+                        self.level[event.pos[1]//40][event.pos[0] // 40] = self.selectedItem
                     if event.button == 2:
-                        self.selectedItem = self.level[event.pos[1] //
-                                                       40][event.pos[0]//40]
+                        self.selectedItem = self.level[event.pos[1] // 40][event.pos[0]//40]
                     if event.button == 3:
                         self.level[event.pos[1]//40][event.pos[0]//40] = 0
                     if event.button == 5 and self.selectedItem < 13:
@@ -139,7 +138,8 @@ class Game:
                         self.win = pygame.display.set_mode((650, 650))
                     if event.pos[0] > 300 and event.pos[0] < 600:
                         print(self.level)
-                        print(checkLevel(self.level))
+                        if checkLevel(self.level) == "FINISH":
+                            saveLevel(self.level)
 
             self.engine.toolbar(self.win, self.selectedItem)
             self.engine.show(self.win, self.level, self.caracter,
