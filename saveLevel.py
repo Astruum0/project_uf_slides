@@ -1,16 +1,10 @@
 import pygame
 from pygame.locals import *
+from json_manipulation import importToJson
 import json
 
 
 def saveLevel(lvl):
-    def importToJson(lvl, name):
-        with open("level_data/editor_level.json", "r") as f:
-            list_levels = json.load(f)
-        level = {"level_name": name, "level_composition": lvl}
-        list_levels.append(level)
-        with open("level_data/editor_level.json", "w") as f:
-            json.dump(list_levels, f, indent=2)
 
     pygame.font.init()
     win = pygame.display.set_mode((600, 600))

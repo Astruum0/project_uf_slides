@@ -1,9 +1,11 @@
 import pygame
 from functions import miniConvert
 from game import Game
+from json_manipulation import deleteLevel
 import json
 
 pygame.init()
+
 
 def levelSelector():
     jeu = Game()
@@ -31,10 +33,11 @@ def levelSelector():
         nbrNormalLevels = 0
         nbrPersoLevels = 0
 
-        def __init__(self, name, level, typelevel):
+        def __init__(self, name, level, typelevel, i):
             self.name = name
             self.level = level
             self.x = 100
+            self.i = i
             self.font = pygame.font.Font("freesansbold.ttf", 30)
             if typelevel == "normal":
                 self.y = 50 + 150 * listLevels.nbrNormalLevels
@@ -45,7 +48,7 @@ def levelSelector():
                 self.typeLevel = "perso"
                 listLevels.nbrPersoLevels += 1
 
-        def show(self, fen):
+        def show(self, fen, buttons):
             for col in range(15):
                 for lig in range(15):
                     x, y = miniConvert(lig, col)
@@ -89,6 +92,8 @@ def levelSelector():
                         fen.blit(switchers[3], (self.x + x, self.y + y))
             pygame.draw.rect(fen, (255, 255, 255), (self.x, self.y, 400, 150), 1)
 
+            if buttons:
+                fen.blit(buttons[5], (self.x + 350, self.y + 100))
             textname = self.font.render(self.name, True, (255, 255, 255))
             fen.blit(textname, (self.x + 220, self.y + 60))
 
@@ -117,6 +122,7 @@ def levelSelector():
         pygame.image.load("menuframes/editorlevel.png"),
         pygame.image.load("menuframes/editorlevel_selected.png"),
         pygame.image.load("MenuFrames/editor_exit.png"),
+        pygame.image.load("MenuFrames/trash.png"),
     ]
     listNormalLevel = []
     listPersoLevel = []
@@ -124,16 +130,24 @@ def levelSelector():
 
     with open("level_data/normal_level.json") as f:
         normal_levels = json.load(f)
+    i = 0
     for data in normal_levels:
         if data["level_name"] != "pattern" and data["level_name"] != "Secret Level":
-            listNormalLevel.append(listLevels(data["level_name"], data["level_composition"], "normal"))
-    
+            listNormalLevel.append(
+                listLevels(data["level_name"], data["level_composition"], "normal", i)
+            )
+        i += 1
+
     with open("level_data/editor_level.json") as f:
         editor_levels = json.load(f)
+    i = 0
     for data in editor_levels:
         if data["level_name"] != "pattern":
-            listPersoLevel.append(listLevels(data["level_name"], data["level_composition"], "perso"))
-    
+            listPersoLevel.append(
+                listLevels(data["level_name"], data["level_composition"], "perso", i)
+            )
+        i += 1
+
     levelselector = True
     while levelselector:
         win.fill((0, 0, 0))
@@ -196,8 +210,11 @@ def levelSelector():
                 if actualLevelDisplay == "perso":
                     for lvl in listPersoLevel:
                         if event.pos[1] > lvl.y and event.pos[1] < lvl.y + 150:
-                            jeu.level = lvl.level
-                            jeu.testLevel()
+                            if event.pos[0] > 450 and event.pos[1] > lvl.y + 100:
+                                listPersoLevel = deleteLevel(listPersoLevel, lvl.i)
+                            else:
+                                jeu.level = lvl.level
+                                jeu.testLevel()
 
             if (
                 event.type == pygame.MOUSEBUTTONDOWN
@@ -211,10 +228,10 @@ def levelSelector():
 
         if actualLevelDisplay == "normal":
             for lvl in listNormalLevel:
-                lvl.show(win)
+                lvl.show(win, None)
         elif actualLevelDisplay == "perso":
             for lvl in listPersoLevel:
-                lvl.show(win)
+                lvl.show(win, buttons)
         show(win, buttons, actualLevelDisplay)
         pygame.display.update()
 
