@@ -38,7 +38,7 @@ def levelSelector():
             self.level = level
             self.x = 100
             self.i = i
-            self.font = pygame.font.Font("freesansbold.ttf", 30)
+            self.font = pygame.font.Font("fonts/PixelOperatorMono8-Bold.ttf", 16)
             if typelevel == "normal":
                 self.y = 50 + 150 * listLevels.nbrNormalLevels
                 self.typeLevel = "normal"
@@ -98,7 +98,7 @@ def levelSelector():
                 fen.blit(buttons[6], (self.x+150, self.y + 100))
                 fen.blit(buttons[5], (self.x + 350, self.y + 100))
             textname = self.font.render(self.name, True, (255, 255, 255))
-            fen.blit(textname, (self.x + 220, self.y + 60))
+            fen.blit(textname, (self.x + 275 - (8* len(self.name)), self.y + 60))
 
     def scroll(dir, levels):
         for lvl in levels:
