@@ -91,8 +91,11 @@ def levelSelector():
                     if self.level[lig][col] == 14:
                         fen.blit(switchers[3], (self.x + x, self.y + y))
             pygame.draw.rect(fen, (255, 255, 255), (self.x, self.y, 400, 150), 1)
+            pygame.draw.rect(fen, (255, 255, 255), (self.x, self.y, 150, 150), 1)
+            
 
             if buttons:
+                fen.blit(buttons[6], (self.x+150, self.y + 100))
                 fen.blit(buttons[5], (self.x + 350, self.y + 100))
             textname = self.font.render(self.name, True, (255, 255, 255))
             fen.blit(textname, (self.x + 220, self.y + 60))
@@ -123,6 +126,7 @@ def levelSelector():
         pygame.image.load("menuframes/editorlevel_selected.png"),
         pygame.image.load("MenuFrames/editor_exit.png"),
         pygame.image.load("MenuFrames/trash.png"),
+        pygame.image.load("MenuFrames/edit.png")
     ]
     listNormalLevel = []
     listPersoLevel = []
@@ -212,6 +216,9 @@ def levelSelector():
                         if event.pos[1] > lvl.y and event.pos[1] < lvl.y + 150:
                             if event.pos[0] > 450 and event.pos[1] > lvl.y + 100:
                                 listPersoLevel = deleteLevel(listPersoLevel, lvl.i)
+                            elif event.pos[0] > 250 and event.pos[0] < 300 and event.pos[1] > lvl.y + 100:
+                                jeu.level = lvl.level
+                                jeu.runEditor()
                             else:
                                 jeu.level = lvl.level
                                 jeu.testLevel()
