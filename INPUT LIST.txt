@@ -1,38 +1,19 @@
-########################
-Format bouton : 
-Key {nom du bouton} [état 0/1] = Correspondance
-########################
+event.button == 0: A/Croix
+event.button == 1: B/Rond
+event.button == 2: X/Carré
+event.button == 3: Y/Triangle
+event.button == 4: LB/L1
+event.button == 5: RB/R1
+event.button == 6: Select
+event.button == 7: Start
+event.button == 8: Bouton stick gauche/L3
+event.button == 9: Bouton stick droit/R3
 
-Key BTN_SOUTH = A/Croix
-Key BTN_EAST = B/Rond
-Key BTN_WEST = X/Carré
-Key BTN_NORTH = Y/Triangle
+event.hat == 0 and event.value == (0, 1) : DPAD Neutre
+event.hat == 0 and event.value == (0, 1) : DPAD Haut
+event.hat == 0 and event.value == (0, -1) : DPAD Bas
+event.hat == 0 and event.value == (-1, 0) : DPAD Gauche
+event.hat == 0 and event.value == (1, 0) : DPAD Droite
 
-Key BTN_SELECT = Start
-Key BTN_START = Select
-(oui les deux sont inversés)
 
-Key BTN_TR = RB/R1
-Key BTN_TL = LB/L1
-
-Key BTN_THUMBL = Bouton stick gauche/L3
-Key BTN_THUMBR = Bouton stick droit/R3
-
-#################
-Format gâchette :
-Absolute {nom gachette} [valeur 0 - 255] = Correspondance
-###################
-
-Absolute ABS_RZ = RT/R2
-Absolute ABS_Z = LT/L2
-
-#####################
-Format DPAD :
-Absolute {DPAD direction} [direction -1/1/(0)] = Correspondance
-##################
-
-Absolute ABS_HAT0Y -1/0 = Dpad haut
-Absolute ABS_HAT0Y 1/0 = Dpad bas
-Absolute ABS_HAT0X -1/0 = Dpad gauche
-Absolute ABS_HAT0X 1/0 = Dpad droite
 

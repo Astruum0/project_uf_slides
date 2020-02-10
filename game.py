@@ -21,6 +21,7 @@ class Game:
         self.game = False
         self.editor = False
         self.pause = False
+        joysticks = []
 
         with open("level_data/normal_level.json") as f:
             self.normal_levels = json.load(f)
@@ -38,6 +39,12 @@ class Game:
 
         self.switchDir = 0
         self.switchTunnel = False
+
+        for i in range(0, pygame.joystick.get_count()):
+            joysticks.append(pygame.joystick.Joystick(i))
+        joysticks[-1].init()
+        print("-------------------")
+        print("Manettes detectees :", joysticks[-1].get_name())
 
     def pausemenu(self):
         while self.pause == True:
@@ -187,6 +194,12 @@ class Game:
                     self.runEditor()
                 else:
                     return
+
+            ###MANETTE###
+            elif event.type == pygame.JOYHATMOTION:
+                if event.hat == 0:
+                    print(event)
+            ###############
 
             elif keys[K_SPACE] or self.caracter.OutOfBorder():
                 self.level = resetLevel(
