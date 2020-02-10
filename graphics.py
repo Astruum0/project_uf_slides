@@ -39,15 +39,20 @@ class engine:
             pygame.image.load("menuframes/editor_exit.png"),
         ]
 
-        self.kirby_idle = []
+        self.idle = []
         for i in range(20):
-            self.kirby_idle.append(pygame.image.load(
-                "templates/kirby_idle/" + str(i + 1) + ".png"))
+            self.idle.append(pygame.image.load(
+                "templates/idle/" + str(i + 1) + ".png"))
 
-        self.kirby_right = []
+        self.moving_right = []
         for i in range(8):
-            self.kirby_right.append(pygame.image.load(
-                "templates/kirby_right/" + str(i + 1) + ".png"))
+            self.moving_right.append(pygame.image.load(
+                "templates/moving_right/" + str(i + 1) + ".png"))
+
+        self.moving_left = []
+        for i in range(8):
+            self.moving_left.append(pygame.image.load(
+                "templates/moving_left/" + str(i + 1) + ".png"))
 
         self.arrow_up = []
         for i in range(8):
@@ -103,10 +108,15 @@ class engine:
                     win.blit(self.switchers[2], (x, y))
                 if level[lig][col] == 14:
                     win.blit(self.switchers[3], (x, y))
-
-        if game or test:
-            win.blit(self.kirby_idle[(frame // 5) % 20],
-                     (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                if caracter.direction == "RIGHT":
+                    win.blit(self.moving_right[(
+                        frame // 4) % 8], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                if caracter.direction == "STAY":
+                    win.blit(self.idle[(
+                        frame // 5) % 20], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                if caracter.direction == "LEFT":
+                    win.blit(self.moving_left[(
+                        frame // 4) % 8], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
 
         if editor and not test:
             for i in range(15):

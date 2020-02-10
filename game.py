@@ -5,8 +5,10 @@ from functions import Convert, resetLevel
 from graphics import engine
 from check import checkLevel
 from saveLevel import saveLevel
+from pause import pausemenu
 import copy
 import json
+import time
 
 
 class Game:
@@ -20,8 +22,6 @@ class Game:
         pygame.display.set_caption("SLIDE")
         self.game = False
         self.editor = False
-        self.pause = False
-        joysticks = []
 
         with open("level_data/normal_level.json") as f:
             self.normal_levels = json.load(f)
@@ -40,25 +40,6 @@ class Game:
         self.switchDir = 0
         self.switchTunnel = False
 
-        for i in range(0, pygame.joystick.get_count()):
-            joysticks.append(pygame.joystick.Joystick(i))
-        joysticks[-1].init()
-        print("-------------------")
-        print("Manettes detectees :", joysticks[-1].get_name())
-
-    def pausemenu(self):
-        while self.pause == True:
-            self.caracter.setDir("STAY", self.level)
-            pausemenudarken = pygame.image.load(
-                "MenuFrames/pausedarken.png")
-            self.win.blit(pausemenudarken, (0, 0))
-            for event in pygame.event.get():
-                if event.type == KEYUP:
-                    if event.key == K_p:
-                        self.win.blit(pausemenudarken, (0, 0))
-                        self.pause = False
-            pygame.display.update()
-
     def runGame(self):
         self.game = True
         self.editor = False
@@ -76,10 +57,10 @@ class Game:
                     self.game = False
                     return
 
-            if event.type == KEYUP:
-                if event.key == K_p and self.pause == False:
-                    self.pause = True
-                    self.pausemenu()
+            if keys[K_ESCAPE]:
+                if pausemenu(self.win):
+                    self.game = False
+                    return
 
             if keys[K_LEFT] and self.caracter.immobile():
                 self.caracter.setDir("LEFT", self.level)
@@ -183,11 +164,6 @@ class Game:
                 if event.type == QUIT:
                     self.test = False
                     return
-
-            if event.type == KEYUP:
-                if event.key == K_p and self.pause == False:
-                    self.pause = True
-                    self.pausemenu()
 
             if keys[K_LEFT] and self.caracter.immobile():
                 self.caracter.setDir("LEFT", self.level)
@@ -400,5 +376,5 @@ class Game:
 
 if __name__ == "__main__":
     game = Game()
-    game.runEditor()
+    game.runGame()
     pygame.quit()
