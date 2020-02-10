@@ -8,6 +8,10 @@ from saveLevel import saveLevel
 import copy
 import json
 
+###CONTROLLER TEST###
+from inputs import devices
+#####################
+
 
 class Game:
     def __init__(self):
@@ -122,9 +126,11 @@ class Game:
 
                 if event.type == MOUSEBUTTONDOWN and event.pos[0] < 600 and event.pos[1] < 600:
                     if event.button == 1:
-                        self.level[event.pos[1]//40][event.pos[0] // 40] = self.selectedItem
+                        self.level[event.pos[1]//40][event.pos[0] //
+                                                     40] = self.selectedItem
                     if event.button == 2:
-                        self.selectedItem = self.level[event.pos[1] // 40][event.pos[0]//40]
+                        self.selectedItem = self.level[event.pos[1] //
+                                                       40][event.pos[0]//40]
                     if event.button == 3:
                         self.level[event.pos[1]//40][event.pos[0]//40] = 0
                     if event.button == 5 and self.selectedItem < 13:
