@@ -40,17 +40,18 @@ class Game:
         self.switchTunnel = False
 
     def pausemenu(self):
+        print(self.pause)
         while self.pause == True:
             self.caracter.setDir("STAY", self.level)
             pausemenudarken = pygame.image.load(
                 "MenuFrames/pausedarken.png")
             self.win.blit(pausemenudarken, (0, 0))
+            pygame.display.update()
             for event in pygame.event.get():
                 if event.type == KEYUP:
                     if event.key == K_p:
-                        self.win.blit(pausemenudarken, (0, 0))
                         self.pause = False
-            pygame.display.update()
+                        pygame.display.update()
 
     def runGame(self):
         self.game = True
@@ -70,9 +71,8 @@ class Game:
                     return
 
             if event.type == KEYUP:
-                if event.key == K_p and self.pause == False:
+                if event.key == K_p:
                     self.pause = True
-                    self.pausemenu()
 
             if keys[K_LEFT] and self.caracter.immobile():
                 self.caracter.setDir("LEFT", self.level)
@@ -167,6 +167,7 @@ class Game:
                 if event.key == K_p and self.pause == False:
                     self.pause = True
                     self.pausemenu()
+                    
 
             if keys[K_LEFT] and self.caracter.immobile():
                 self.caracter.setDir("LEFT", self.level)
