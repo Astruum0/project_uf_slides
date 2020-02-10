@@ -8,10 +8,6 @@ from saveLevel import saveLevel
 import copy
 import json
 
-###CONTROLLER TEST###
-from inputs import devices
-#####################
-
 
 class Game:
     def __init__(self):

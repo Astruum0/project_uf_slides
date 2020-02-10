@@ -1,0 +1,38 @@
+########################
+Format bouton : 
+Key {nom du bouton} [état 0/1] = Correspondance
+########################
+
+Key BTN_SOUTH = A/Croix
+Key BTN_EAST = B/Rond
+Key BTN_WEST = X/Carré
+Key BTN_NORTH = Y/Triangle
+
+Key BTN_SELECT = Start
+Key BTN_START = Select
+(oui les deux sont inversés)
+
+Key BTN_TR = RB/R1
+Key BTN_TL = LB/L1
+
+Key BTN_THUMBL = Bouton stick gauche/L3
+Key BTN_THUMBR = Bouton stick droit/R3
+
+#################
+Format gâchette :
+Absolute {nom gachette} [valeur 0 - 255] = Correspondance
+###################
+
+Absolute ABS_RZ = RT/R2
+Absolute ABS_Z = LT/L2
+
+#####################
+Format DPAD :
+Absolute {DPAD direction} [direction -1/1/(0)] = Correspondance
+##################
+
+Absolute ABS_HAT0Y -1/0 = Dpad haut
+Absolute ABS_HAT0Y 1/0 = Dpad bas
+Absolute ABS_HAT0X -1/0 = Dpad gauche
+Absolute ABS_HAT0X 1/0 = Dpad droite
+
