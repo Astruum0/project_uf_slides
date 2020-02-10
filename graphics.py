@@ -103,6 +103,8 @@ class engine:
                     win.blit(self.switchers[2], (x, y))
                 if level[lig][col] == 14:
                     win.blit(self.switchers[3], (x, y))
+                # if caracter.direction == "RIGHT":
+                #     win.blit(self.movng_right[(frame // 10) % 4], (x, y))
 
         if game or test:
             win.blit(self.idle[(frame // 5) % 20],

@@ -39,7 +39,6 @@ class Game:
 
         self.switchDir = 0
         self.switchTunnel = False
-        
 
     def runGame(self):
         self.game = True
