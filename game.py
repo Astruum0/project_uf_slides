@@ -22,6 +22,8 @@ class Game:
         pygame.display.set_caption("SLIDE")
         self.game = False
         self.editor = False
+        self.pause = False
+        joysticks = []
 
         with open("level_data/normal_level.json") as f:
             self.normal_levels = json.load(f)
@@ -39,6 +41,25 @@ class Game:
 
         self.switchDir = 0
         self.switchTunnel = False
+
+        for i in range(0, pygame.joystick.get_count()):
+            joysticks.append(pygame.joystick.Joystick(i))
+        joysticks[-1].init()
+        print("-------------------")
+        print("Manettes detectees :", joysticks[-1].get_name())
+
+    def pausemenu(self):
+        while self.pause == True:
+            self.caracter.setDir("STAY", self.level)
+            pausemenudarken = pygame.image.load(
+                "MenuFrames/pausedarken.png")
+            self.win.blit(pausemenudarken, (0, 0))
+            for event in pygame.event.get():
+                if event.type == KEYUP:
+                    if event.key == K_p:
+                        self.win.blit(pausemenudarken, (0, 0))
+                        self.pause = False
+            pygame.display.update()
 
     def runGame(self):
         self.game = True
@@ -80,7 +101,7 @@ class Game:
                     self.caracter.setDir("UP", self.level)
                 if event.value == (0, -1):
                     self.caracter.setDir("DOWN", self.level)
-            elif event.type == pygame.BUTTONDOWN:
+            elif event.type == pygame.JOYBUTTONDOWN:
                 if event.button == 1:
                     self.caracter.setStart(self.level)
                     ###############
