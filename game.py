@@ -89,6 +89,20 @@ class Game:
                 self.caracter.setDir("DOWN", self.level)
             elif keys[K_UP] and self.caracter.immobile():
                 self.caracter.setDir("UP", self.level)
+            ###MANETTE###
+            elif event.type == pygame.JOYHATMOTION and self.caracter.immobile():
+                if event.value == (-1, 0):
+                    self.caracter.setDir("LEFT", self.level)
+                if event.value == (1, 0):
+                    self.caracter.setDir("RIGHT", self.level)
+                if event.value == (0, 1):
+                    self.caracter.setDir("UP", self.level)
+                if event.value == (0, -1):
+                    self.caracter.setDir("DOWN", self.level)
+            elif event.type == pygame.BUTTONDOWN:
+                if event.button == 1:
+                    self.caracter.setStart(self.level)
+                    ###############
             elif keys[K_SPACE] or self.caracter.OutOfBorder():
                 self.level = resetLevel(
                     self.level, self.switchDir, self.switchTunnel)
@@ -183,6 +197,23 @@ class Game:
                 self.caracter.setDir("DOWN", self.level)
             elif keys[K_UP] and self.caracter.immobile():
                 self.caracter.setDir("UP", self.level)
+            ###MANETTE###
+            elif event.type == pygame.JOYHATMOTION and self.caracter.immobile():
+                if event.value == (-1, 0):
+                    self.caracter.setDir("LEFT", self.level)
+                if event.value == (1, 0):
+                    self.caracter.setDir("RIGHT", self.level)
+                if event.value == (0, 1):
+                    self.caracter.setDir("UP", self.level)
+                if event.value == (0, -1):
+                    self.caracter.setDir("DOWN", self.level)
+            elif event.type == pygame.JOYBUTTONDOWN and self.caracter.immobile():
+                if event.button == 1:
+                    self.caracter.setStart(self.level)
+                if event.button == 7 and self.pause == False:
+                    self.pause = True
+                    self.pausemenu()
+            ###############
             elif keys[K_ESCAPE]:
                 self.level = resetLevel(
                     self.level, self.switchDir, self.switchTunnel)
@@ -194,12 +225,6 @@ class Game:
                     self.runEditor()
                 else:
                     return
-
-            ###MANETTE###
-            elif event.type == pygame.JOYHATMOTION:
-                if event.hat == 0:
-                    print(event)
-            ###############
 
             elif keys[K_SPACE] or self.caracter.OutOfBorder():
                 self.level = resetLevel(

@@ -6,3 +6,5 @@ __pycache__/functions.cpython-37.pyc
 __pycache__/graphics.cpython-37.pyc
 __pycache__/json_manipulation.cpython-37.pyc
 __pycache__/saveLevel.cpython-37.pyc
+__pycache__/game.cpython-37.pyc
+__pycache__/levelselector.cpython-37.pyc
