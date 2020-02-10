@@ -9,6 +9,8 @@ event.button == 7: Start
 event.button == 8: Bouton stick gauche/L3
 event.button == 9: Bouton stick droit/R3
 
+
+
 event.hat == 0 and event.value == (0, 1) : DPAD Neutre
 event.hat == 0 and event.value == (0, 1) : DPAD Haut
 event.hat == 0 and event.value == (0, -1) : DPAD Bas
