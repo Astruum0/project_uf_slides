@@ -124,7 +124,7 @@ class engine:
                 if game or test:
                     if caracter.direction == "RIGHT":
                         win.blit(
-                            self.moving_right[(frame // 4) % 8],
+                            self.moving_right[(frame // 2) % 2],
                             (caracter.x, caracter.y, caracter.taille, caracter.taille),
                         )
                     if caracter.direction == "STAY":
@@ -134,17 +134,17 @@ class engine:
                         )
                     if caracter.direction == "LEFT":
                         win.blit(
-                            self.moving_left[(frame // 4) % 8],
+                            self.moving_left[(frame // 2) % 2],
                             (caracter.x, caracter.y, caracter.taille, caracter.taille),
                         )
                     if caracter.direction == "DOWN":
                         win.blit(
-                            self.moving_down[(frame // 5) % 20],
+                            self.moving_down[(frame // 2) % 2],
                             (caracter.x, caracter.y, caracter.taille, caracter.taille),
                         )
                     if caracter.direction == "UP":
                         win.blit(
-                            self.moving_up[(frame // 5) % 20],
+                            self.moving_up[(frame // 2) % 2],
                             (caracter.x, caracter.y, caracter.taille, caracter.taille),
                         )
 
