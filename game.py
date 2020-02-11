@@ -6,6 +6,8 @@ from graphics import engine
 from check import checkLevel
 from saveLevel import saveLevel
 from pause import pausemenu
+from timer import Timer
+from endScreen import endScreen
 import copy
 import json
 import time
@@ -16,9 +18,10 @@ class Game:
         pygame.init()
         self.caracter = Caracter()
         self.engine = engine()
+
         self.win = pygame.display.set_mode((600, 600))
         self.clock = pygame.time.Clock()
-        self.i = 0
+        self.i = 8
         pygame.display.set_caption("SLIDE")
         self.game = False
         self.editor = False
@@ -31,7 +34,7 @@ class Game:
         for data in self.normal_levels:
             if data["level_name"] == "pattern":
                 self.pattern = data["level_composition"]
-            else:
+            elif data["level_name"] != "Secret Level":
                 self.list_level.append(data["level_composition"])
 
         self.level = self.list_level[self.i]
@@ -51,8 +54,7 @@ class Game:
     def pausemenu(self):
         while self.pause == True:
             self.caracter.setDir("STAY", self.level)
-            pausemenudarken = pygame.image.load(
-                "MenuFrames/pausedarken.png")
+            pausemenudarken = pygame.image.load("MenuFrames/pausedarken.png")
             self.win.blit(pausemenudarken, (0, 0))
             for event in pygame.event.get():
                 if event.type == KEYUP:
@@ -65,7 +67,8 @@ class Game:
         self.game = True
         self.editor = False
         self.test = False
-        self.win = pygame.display.set_mode((600, 600))
+        self.timer = Timer(0, 625)
+        self.win = pygame.display.set_mode((600, 650))
         self.level = self.list_level[self.i]
         self.caracter.setStart(self.level)
         while self.game:
@@ -75,6 +78,7 @@ class Game:
             keys = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.timer.refresh()
                     self.game = False
                     return
 
@@ -106,8 +110,7 @@ class Game:
                     self.caracter.setStart(self.level)
                     ###############
             elif keys[K_SPACE] or self.caracter.OutOfBorder():
-                self.level = resetLevel(
-                    self.level, self.switchDir, self.switchTunnel)
+                self.level = resetLevel(self.level, self.switchDir, self.switchTunnel)
                 self.switchDir = 0
                 self.switchTunnel = False
                 self.indexFrame = 0
@@ -117,8 +120,18 @@ class Game:
             self.indexFrame += 1
             self.caracter.update(self.level)
             self.updateBlock()
-            self.engine.show(self.win, self.level, self.caracter,
-                             self.indexFrame, self.game, self.editor, self.test)
+            self.engine.show(
+                self.win,
+                self.level,
+                self.caracter,
+                self.indexFrame,
+                self.game,
+                self.editor,
+                self.test,
+            )
+
+            self.timer.update()
+            self.timer.show(self.win)
 
             pygame.display.update()
 
@@ -135,23 +148,33 @@ class Game:
                 if event.type == QUIT:
                     self.editor = False
                     return
-                if event.type == MOUSEBUTTONDOWN and event.button == 1 and event.pos[0] >= 610:
+                if (
+                    event.type == MOUSEBUTTONDOWN
+                    and event.button == 1
+                    and event.pos[0] >= 610
+                ):
                     if event.pos[1] > 600:
                         self.editor = False
                         self.test = False
                         return
                     else:
-                        self.selectedItem = event.pos[1]//43
+                        self.selectedItem = event.pos[1] // 43
 
-                if event.type == MOUSEBUTTONDOWN and event.pos[0] < 600 and event.pos[1] < 600:
+                if (
+                    event.type == MOUSEBUTTONDOWN
+                    and event.pos[0] < 600
+                    and event.pos[1] < 600
+                ):
                     if event.button == 1:
-                        self.level[event.pos[1]//40][event.pos[0] //
-                                                     40] = self.selectedItem
+                        self.level[event.pos[1] // 40][
+                            event.pos[0] // 40
+                        ] = self.selectedItem
                     if event.button == 2:
-                        self.selectedItem = self.level[event.pos[1] //
-                                                       40][event.pos[0]//40]
+                        self.selectedItem = self.level[event.pos[1] // 40][
+                            event.pos[0] // 40
+                        ]
                     if event.button == 3:
-                        self.level[event.pos[1]//40][event.pos[0]//40] = 0
+                        self.level[event.pos[1] // 40][event.pos[0] // 40] = 0
                     if event.button == 5 and self.selectedItem < 13:
                         self.selectedItem += 1
                     if event.button == 4 and self.selectedItem > 0:
@@ -167,8 +190,15 @@ class Game:
                             saveLevel(self.level)
 
             self.engine.toolbar(self.win, self.selectedItem)
-            self.engine.show(self.win, self.level, self.caracter,
-                             self.indexFrame, self.game, self.editor, self.test)
+            self.engine.show(
+                self.win,
+                self.level,
+                self.caracter,
+                self.indexFrame,
+                self.game,
+                self.editor,
+                self.test,
+            )
             pygame.display.update()
 
     def testLevel(self):
@@ -212,8 +242,7 @@ class Game:
                     self.pausemenu()
             ###############
             elif keys[K_ESCAPE]:
-                self.level = resetLevel(
-                    self.level, self.switchDir, self.switchTunnel)
+                self.level = resetLevel(self.level, self.switchDir, self.switchTunnel)
                 self.switchDir = 0
                 self.switchTunnel = False
                 self.caracter.reset()
@@ -224,8 +253,7 @@ class Game:
                     return
 
             elif keys[K_SPACE] or self.caracter.OutOfBorder():
-                self.level = resetLevel(
-                    self.level, self.switchDir, self.switchTunnel)
+                self.level = resetLevel(self.level, self.switchDir, self.switchTunnel)
                 self.switchDir = 0
                 self.switchTunnel = False
                 self.caracter.reset()
@@ -233,8 +261,15 @@ class Game:
             self.indexFrame += 1
             self.caracter.update(self.level)
             self.updateBlock()
-            self.engine.show(self.win, self.level, self.caracter,
-                             self.indexFrame, self.game, self.editor, self.test)
+            self.engine.show(
+                self.win,
+                self.level,
+                self.caracter,
+                self.indexFrame,
+                self.game,
+                self.editor,
+                self.test,
+            )
 
             pygame.display.update()
 
@@ -243,9 +278,14 @@ class Game:
             for lig in range(15):
                 x, y = Convert(lig, col)
                 # Next Level
-                if self.level[lig][col] == 3 and x == self.caracter.x and y == self.caracter.y:
+                if (
+                    self.level[lig][col] == 3
+                    and x == self.caracter.x
+                    and y == self.caracter.y
+                ):
                     self.level = resetLevel(
-                        self.level, self.switchDir, self.switchTunnel)
+                        self.level, self.switchDir, self.switchTunnel
+                    )
                     self.switchDir = 0
                     self.switchTunnel = False
                     self.caracter.reset()
@@ -261,15 +301,25 @@ class Game:
                             self.level = self.list_level[self.i]
                         except:
                             self.i = 0
+                            endScreen(self.timer.getTime())
                             self.game = False
                             return
                         self.caracter.setStart(self.level)
 
-                if (self.level[lig][col] == 2 or self.level[lig][col] == 4) and x == self.caracter.x and y == self.caracter.y:
+                if (
+                    (self.level[lig][col] == 2 or self.level[lig][col] == 4)
+                    and x == self.caracter.x
+                    and y == self.caracter.y
+                ):
                     self.caracter.direction = "STAY"
-                if self.level[lig][col] == 5 and x == self.caracter.x and y == self.caracter.y:
+                if (
+                    self.level[lig][col] == 5
+                    and x == self.caracter.x
+                    and y == self.caracter.y
+                ):
                     self.level = resetLevel(
-                        self.level, self.switchDir, self.switchTunnel)
+                        self.level, self.switchDir, self.switchTunnel
+                    )
                     self.switchDir = 0
                     self.switchTunnel = False
                     self.indexFrame = 0
@@ -283,13 +333,12 @@ class Game:
                     and x == self.caracter.x
                     and y == self.caracter.y
                 ):
-                    if (
-                        lig > 0
-                        and (self.level[lig-1][col] == 1
-                             or self.level[lig-1][col] == 11)
+                    if lig > 0 and (
+                        self.level[lig - 1][col] == 1 or self.level[lig - 1][col] == 11
                     ):
                         self.level = resetLevel(
-                            self.level, self.switchDir, self.switchTunnel)
+                            self.level, self.switchDir, self.switchTunnel
+                        )
                         self.switchDir = 0
                         self.switchTunnel = False
                         self.indexFrame = 0
@@ -305,13 +354,12 @@ class Game:
                     and x == self.caracter.x
                     and y == self.caracter.y
                 ):
-                    if (
-                        lig < 14
-                        and (self.level[lig+1][col] == 1
-                             or self.level[lig+1][col] == 11)
+                    if lig < 14 and (
+                        self.level[lig + 1][col] == 1 or self.level[lig + 1][col] == 11
                     ):
                         self.level = resetLevel(
-                            self.level, self.switchDir, self.switchTunnel)
+                            self.level, self.switchDir, self.switchTunnel
+                        )
                         self.switchDir = 0
                         self.switchTunnel = False
                         self.indexFrame = 0
@@ -327,13 +375,12 @@ class Game:
                     and x == self.caracter.x
                     and y == self.caracter.y
                 ):
-                    if (
-                        col > 0
-                        and (self.level[lig][col-1] == 1
-                             or self.level[lig][col-1] == 12)
+                    if col > 0 and (
+                        self.level[lig][col - 1] == 1 or self.level[lig][col - 1] == 12
                     ):
                         self.level = resetLevel(
-                            self.level, self.switchDir, self.switchTunnel)
+                            self.level, self.switchDir, self.switchTunnel
+                        )
                         self.switchDir = 0
                         self.switchTunnel = False
                         self.indexFrame = 0
@@ -349,13 +396,12 @@ class Game:
                     and x == self.caracter.x
                     and y == self.caracter.y
                 ):
-                    if (
-                        col < 14
-                        and (self.level[lig][col+1] == 1
-                             or self.level[lig][col+1] == 12)
+                    if col < 14 and (
+                        self.level[lig][col + 1] == 1 or self.level[lig][col + 1] == 12
                     ):
                         self.level = resetLevel(
-                            self.level, self.switchDir, self.switchTunnel)
+                            self.level, self.switchDir, self.switchTunnel
+                        )
                         self.switchDir = 0
                         self.switchTunnel = False
                         self.indexFrame = 0
@@ -366,7 +412,12 @@ class Game:
                             return
                     else:
                         self.caracter.direction = "RIGHT"
-                if self.level[lig][col] == 10 and x == self.caracter.x and y == self.caracter.y and self.caracter.direction != "STAY":
+                if (
+                    self.level[lig][col] == 10
+                    and x == self.caracter.x
+                    and y == self.caracter.y
+                    and self.caracter.direction != "STAY"
+                ):
                     self.switchDir += 1
                     for col in range(15):
                         for lig in range(15):
@@ -378,7 +429,12 @@ class Game:
                                 self.level[lig][col] = 6
                             elif self.level[lig][col] == 9:
                                 self.level[lig][col] = 7
-                if (self.level[lig][col] == 13 or self.level[lig][col] == 14) and x == self.caracter.x and y == self.caracter.y and self.caracter.direction != "STAY":
+                if (
+                    (self.level[lig][col] == 13 or self.level[lig][col] == 14)
+                    and x == self.caracter.x
+                    and y == self.caracter.y
+                    and self.caracter.direction != "STAY"
+                ):
                     self.switchTunnel = not self.switchTunnel
                     if self.level[lig][col] == 13:
                         self.level[lig][col] = 14
