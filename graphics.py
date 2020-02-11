@@ -45,14 +45,24 @@ class engine:
                 "templates/idle/" + str(i + 1) + ".png"))
 
         self.moving_right = []
-        for i in range(8):
+        for i in range(2):
             self.moving_right.append(pygame.image.load(
                 "templates/moving_right/" + str(i + 1) + ".png"))
 
         self.moving_left = []
-        for i in range(8):
+        for i in range(2):
             self.moving_left.append(pygame.image.load(
                 "templates/moving_left/" + str(i + 1) + ".png"))
+            
+        self.moving_up = []
+        for i in range(2):
+            self.moving_up.append(pygame.image.load(
+                "templates/moving_up/" + str(i + 1) + ".png"))
+            
+        self.moving_down = []
+        for i in range(2):
+            self.moving_down.append(pygame.image.load(
+                "templates/moving_down/" + str(i + 1) + ".png"))
 
         self.arrow_up = []
         for i in range(8):
@@ -108,15 +118,21 @@ class engine:
                     win.blit(self.switchers[2], (x, y))
                 if level[lig][col] == 14:
                     win.blit(self.switchers[3], (x, y))
-                if caracter.direction == "RIGHT":
-                    win.blit(self.moving_right[(
-                        frame // 4) % 8], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
                 if caracter.direction == "STAY":
                     win.blit(self.idle[(
-                        frame // 5) % 20], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                        frame // 4) % 20], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                if caracter.direction == "RIGHT":
+                    win.blit(self.moving_right[(
+                        frame // 4) % 2], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
                 if caracter.direction == "LEFT":
                     win.blit(self.moving_left[(
-                        frame // 4) % 8], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                        frame // 4) % 2], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                if caracter.direction == "UP":
+                    win.blit(self.moving_up[(
+                        frame // 4) % 2], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
+                if caracter.direction == "DOWN":
+                    win.blit(self.moving_down[(
+                        frame // 4) % 2], (caracter.x, caracter.y, caracter.taille, caracter.taille)),
 
         if editor and not test:
             for i in range(15):
