@@ -81,6 +81,7 @@ class Game:
                 if output == "RESUME":
                     self.timer.resume()
                 if output == "RESTART":
+                    self.timer.resume()
                     self.level = resetLevel(
                         self.level, self.switchDir, self.switchTunnel
                     )
