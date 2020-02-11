@@ -4,6 +4,7 @@ import time
 from moviepy.editor import VideoFileClip
 from game import Game
 from levelselector import levelSelector
+from leaderboard import leaderboard
 
 
 game = Game()
@@ -256,7 +257,7 @@ def main_menu():
             ):
                 if soundOn:
                     pygame.mixer.Sound.play(click_sound)
-                print("LEADERBOARD")
+                leaderboard()
             else:
                 play_select[4] = True
                 LeaderBoardImg = pygame.image.load("menuframes/leaderboard.png")
