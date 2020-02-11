@@ -246,5 +246,5 @@ def main_menu():
     pygame.quit()
 
 
-# main_menu()
-intro_video()
+main_menu()
+# intro_video()

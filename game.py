@@ -53,18 +53,6 @@ class Game:
             print("-------------------")
             print("Manettes detectees :", joysticks[-1].get_name())
 
-    def pausemenu(self):
-        while self.pause == True:
-            self.caracter.setDir("STAY", self.level)
-            pausemenudarken = pygame.image.load("MenuFrames/pausedarken.png")
-            self.win.blit(pausemenudarken, (0, 0))
-            for event in pygame.event.get():
-                if event.type == KEYUP:
-                    if event.key == K_p:
-                        self.win.blit(pausemenudarken, (0, 0))
-                        self.pause = False
-            pygame.display.update()
-
     def runGame(self):
         self.game = True
         self.editor = False
@@ -85,9 +73,22 @@ class Game:
                     return
 
             if keys[K_ESCAPE]:
-                if pausemenu(self.win):
+                self.timer.pause()
+                output = pausemenu(self.win)
+                if output == "QUIT":
                     self.game = False
                     return
+                if output == "RESUME":
+                    self.timer.resume()
+                if output == "RESTART":
+                    self.level = resetLevel(
+                        self.level, self.switchDir, self.switchTunnel
+                    )
+                    self.switchDir = 0
+                    self.switchTunnel = False
+                    self.indexFrame = 0
+                    self.caracter.reset()
+                    self.level = self.list_level[self.i]
 
             if keys[K_LEFT] and self.caracter.immobile():
                 self.caracter.setDir("LEFT", self.level)

@@ -63,31 +63,11 @@ class Timer:
     def getTime(self):
         return round(self.timer + self.save, 3)
 
-    def printTime(self):
+    def pause(self):
+        self.save += self.timer
+        self.timer = 0
+        self.start = False
 
-        self.duree = str(round(self.timer + self.save, 3))
-        if "." in self.duree:
-            self.s, self.ms = self.duree.split(".")
-            self.m = str(int(self.s) // 60)
-            self.h = str(int(self.m) // 60)
-            self.m = str(int(self.m) % 60)
-            self.s = str(int(self.s) % 60)
-            if self.ms == "0":
-                self.ms = "000"
-        else:
-            self.s = self.duree
-            self.ms = "000"
-            self.m = str(int(self.s) // 60)
-            self.h = str(int(self.m) // 60)
-            self.m = str(int(self.m) % 60)
-            self.s = str(int(self.s) % 60)
-
-        print(
-            self.h.zfill(2)
-            + ":"
-            + self.m.zfill(2)
-            + ":"
-            + self.s.zfill(2)
-            + ","
-            + self.ms.zfill(3),
-        )
+    def resume(self):
+        self.start = True
+        self.origine = time.time()

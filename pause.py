@@ -39,7 +39,7 @@ def pausemenu(win):
                 and event.pos[1] < ResumePlusY + SizeY
             ):
                 pause = False
-                return False
+                return "RESUME"
             else:
                 ResumeImg = pygame.image.load("menuframes/resume_neutral.png")
 
@@ -63,10 +63,9 @@ def pausemenu(win):
                 and event.pos[1] < RestartPlusY + SizeY
             ):
                 pause = False
-                return False
+                return "RESTART"
             else:
-                RestartImg = pygame.image.load(
-                    "menuframes/restart_neutral.png")
+                RestartImg = pygame.image.load("menuframes/restart_neutral.png")
 
             ###RESTART BUTTON END###
             ###QUIT BUTTON START###
@@ -88,16 +87,15 @@ def pausemenu(win):
                 and event.pos[1] < QuitButtonPlusY + SizeY
             ):
                 pause = False
-                return True
+                return "QUIT"
             else:
-                QuitImg = pygame.image.load(
-                    "menuframes/QuitButton_Neutral.png")
+                QuitImg = pygame.image.load("menuframes/QuitButton_Neutral.png")
             ###QUIT BUTTON END###
 
             keys = pygame.key.get_pressed()
             if keys[K_RETURN]:
                 pause = False
-                return False
+                return "QUIT"
 
             win.blit(pausemenudarken, (0, 0))
             win.blit(ResumeImg, (PlusX, ResumePlusY))
