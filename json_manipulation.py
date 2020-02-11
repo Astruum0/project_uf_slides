@@ -38,3 +38,33 @@ def recupLevelNames():
     for lvl in list_levels:
         listNames.append(lvl["level_name"])
     return listNames
+
+
+def recupTimes():
+    with open("level_data/times.json", "r") as f:
+        list_scores = json.load(f)
+    listNames = []
+    listTimes = []
+    for item in list_scores:
+        listNames.append(item["pseudo"])
+        listTimes.append(item["time"])
+    return listNames, listTimes
+
+
+def saveTime(time, name, lN):
+    with open("level_data/times.json", "r") as f:
+        scoreboard = json.load(f)
+    if name in lN:
+        for item in scoreboard:
+            if item["pseudo"] == name:
+                item["time"] = time
+    else:
+        scoreboard.append({"pseudo": name, "time": time})
+    orderedScoreboard = orderScoreboard(scoreboard)
+    with open("level_data/times.json", "w") as f:
+        json.dump(orderedScoreboard, f, indent=2)
+
+
+def orderScoreboard(sb):
+    return sorted(sb, key=lambda i: i["time"])
+

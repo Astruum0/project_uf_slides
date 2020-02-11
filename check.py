@@ -42,7 +42,7 @@ def checkLevel(lvl):
 
     while checking:
         win.fill((0, 0, 0))
-        clock.tick(60)
+        clock.tick(5)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

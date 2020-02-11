@@ -1,5 +1,6 @@
 import pygame
 import time
+
 from moviepy.editor import VideoFileClip
 from game import Game
 from levelselector import levelSelector
@@ -28,10 +29,13 @@ def main_menu():
     PlayImg = pygame.image.load("menuframes/PlayButton_Neutral.png")
     EditorImg = pygame.image.load("menuframes/EditorButton_Neutral.png")
     SelectLevelImg = pygame.image.load("menuframes/SelectLevel_Neutral.png")
-    RulesImg = pygame.image.load("menuframes/Rules_Neutral.png"),
+    RulesImg = pygame.image.load("menuframes/Rules_Neutral.png")
     QuitImg = pygame.image.load("menuframes/QuitButton_Neutral.png")
     LogoImg = pygame.image.load("menuframes/mainlogo.png")
-    soundImg = [pygame.image.load("menuframes/sound_on.png"), pygame.image.load("menuframes/sound_off.png")]
+    soundImg = [
+        pygame.image.load("menuframes/sound_on.png"),
+        pygame.image.load("menuframes/sound_off.png"),
+    ]
     soundOn = True
 
     SizeX = 373
@@ -213,7 +217,7 @@ def main_menu():
             else:
                 play_select[4] = True
                 QuitImg = pygame.image.load("menuframes/QuitButton_Neutral.png")
-            
+
             if (
                 event.type == pygame.MOUSEBUTTONDOWN
                 and event.pos[0] < 50
@@ -242,5 +246,5 @@ def main_menu():
     pygame.quit()
 
 
-main_menu()
-# intro_video()
+# main_menu()
+intro_video()

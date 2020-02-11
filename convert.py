@@ -21,7 +21,7 @@ def resetLevel(level, dire, tunnel):
                     level[lig][col] = 12
                 elif level[lig][col] == 12:
                     level[lig][col] = 11
-    
+
     for _ in range(dire):
         for col in range(15):
             for lig in range(15):
@@ -35,3 +35,25 @@ def resetLevel(level, dire, tunnel):
                     level[lig][col] = 9
 
     return level
+
+
+def convertTime(time):
+    time = str(time)
+    if "." in time:
+        s, ms = time.split(".")
+        m = str(int(s) // 60)
+        h = str(int(m) // 60)
+        m = str(int(m) % 60)
+        s = str(int(s) % 60)
+        if ms == "0":
+            ms = "000"
+    else:
+        s = time
+        ms = "000"
+        m = str(int(s) // 60)
+        h = str(int(m) // 60)
+        m = str(int(m) % 60)
+        s = str(int(s) % 60)
+
+    return h.zfill(2) + ":" + m.zfill(2) + ":" + s.zfill(2) + "," + ms.zfill(3)
+
