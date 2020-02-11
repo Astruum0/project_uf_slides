@@ -32,6 +32,7 @@ def main_menu():
     RulesImg = pygame.image.load("menuframes/Rules_Neutral.png")
     QuitImg = pygame.image.load("menuframes/QuitButton_Neutral.png")
     LogoImg = pygame.image.load("menuframes/mainlogo.png")
+    LeaderBoardImg = pygame.image.load("menuframes/leaderboard.png")
     soundImg = [
         pygame.image.load("menuframes/sound_on.png"),
         pygame.image.load("menuframes/sound_off.png"),
@@ -218,18 +219,47 @@ def main_menu():
                 play_select[4] = True
                 QuitImg = pygame.image.load("menuframes/QuitButton_Neutral.png")
 
+            ### SOUND ###
             if (
                 event.type == pygame.MOUSEBUTTONDOWN
-                and event.pos[0] < 50
-                and event.pos[1] > 550
+                and event.pos[0] < 75
+                and event.pos[1] > 525
+                and event.pos[0] > 25
+                and event.pos[1] < 575
             ):
                 soundOn = not soundOn
                 if soundOn:
                     pygame.mixer.music.play()
                 else:
                     pygame.mixer.music.stop()
+            ### LEADERBOARD ###
 
-            ###QUIT BUTTON END###
+            if (
+                event.type != pygame.MOUSEBUTTONDOWN
+                and event.type == pygame.MOUSEMOTION
+                and event.pos[0] > 525
+                and event.pos[1] > 525
+                and event.pos[0] < 575
+                and event.pos[1] < 575
+            ):
+                if play_select[4] and soundOn:
+                    pygame.mixer.Sound.play(select_sound)
+                    play_select[4] = False
+                LeaderBoardImg = pygame.image.load("menuframes/leaderboard_hover.png")
+
+            elif (
+                event.type == pygame.MOUSEBUTTONDOWN
+                and event.pos[0] > 525
+                and event.pos[1] > 525
+                and event.pos[0] < 575
+                and event.pos[1] < 575
+            ):
+                if soundOn:
+                    pygame.mixer.Sound.play(click_sound)
+                print("LEADERBOARD")
+            else:
+                play_select[4] = True
+                LeaderBoardImg = pygame.image.load("menuframes/leaderboard.png")
 
         gameDisplay.blit(PlayImg, (PlusX, PlayImgPlusY))
         gameDisplay.blit(EditorImg, (PlusX, EditorImgPlusY))
@@ -237,10 +267,11 @@ def main_menu():
         gameDisplay.blit(RulesImg, (PlusX, RulesImgPlusY))
         gameDisplay.blit(QuitImg, (PlusXQuit, QuitButtonPlusY))
         gameDisplay.blit(LogoImg, (75, 75))
+        gameDisplay.blit(LeaderBoardImg, (525, 525))
         if soundOn:
-            gameDisplay.blit(soundImg[0], (0, 550))
+            gameDisplay.blit(soundImg[0], (25, 525))
         else:
-            gameDisplay.blit(soundImg[1], (0, 550))
+            gameDisplay.blit(soundImg[1], (25, 525))
         pygame.display.update()
 
     pygame.quit()
