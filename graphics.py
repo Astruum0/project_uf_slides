@@ -43,16 +43,24 @@ class engine:
             self.idle.append(pygame.image.load("templates/idle/" + str(i + 1) + ".png"))
 
         self.moving_right = []
-        for i in range(8):
-            self.moving_right.append(
-                pygame.image.load("templates/moving_right/" + str(i + 1) + ".png")
-            )
+        for i in range(2):
+            self.moving_right.append(pygame.image.load(
+                "templates/moving_right/" + str(i + 1) + ".png"))
 
         self.moving_left = []
-        for i in range(8):
-            self.moving_left.append(
-                pygame.image.load("templates/moving_left/" + str(i + 1) + ".png")
-            )
+        for i in range(2):
+            self.moving_left.append(pygame.image.load(
+                "templates/moving_left/" + str(i + 1) + ".png"))
+            
+        self.moving_up = []
+        for i in range(2):
+            self.moving_up.append(pygame.image.load(
+                "templates/moving_up/" + str(i + 1) + ".png"))
+            
+        self.moving_down = []
+        for i in range(2):
+            self.moving_down.append(pygame.image.load(
+                "templates/moving_down/" + str(i + 1) + ".png"))
 
         self.arrow_up = []
         for i in range(8):
@@ -131,12 +139,12 @@ class engine:
                         )
                     if caracter.direction == "DOWN":
                         win.blit(
-                            self.idle[(frame // 5) % 20],
+                            self.moving_down[(frame // 5) % 20],
                             (caracter.x, caracter.y, caracter.taille, caracter.taille),
                         )
                     if caracter.direction == "UP":
                         win.blit(
-                            self.idle[(frame // 5) % 20],
+                            self.moving_up[(frame // 5) % 20],
                             (caracter.x, caracter.y, caracter.taille, caracter.taille),
                         )
 
