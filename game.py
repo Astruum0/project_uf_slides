@@ -21,7 +21,7 @@ class Game:
 
         self.win = pygame.display.set_mode((600, 600))
         self.clock = pygame.time.Clock()
-        self.i = 8
+        self.i = 0
         pygame.display.set_caption("SLIDE")
         self.game = False
         self.editor = False
@@ -45,11 +45,13 @@ class Game:
         self.switchDir = 0
         self.switchTunnel = False
 
+        joysticks = []
         for i in range(0, pygame.joystick.get_count()):
             joysticks.append(pygame.joystick.Joystick(i))
-        joysticks[-1].init()
-        print("-------------------")
-        print("Manettes detectees :", joysticks[-1].get_name())
+        if len(joysticks) > 0:
+            joysticks[-1].init()
+            print("-------------------")
+            print("Manettes detectees :", joysticks[-1].get_name())
 
     def pausemenu(self):
         while self.pause == True:

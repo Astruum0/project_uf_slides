@@ -61,7 +61,7 @@ class Timer:
         self.h = "0"
 
     def getTime(self):
-        return str(round(self.timer + self.save, 3))
+        return round(self.timer + self.save, 3)
 
     def printTime(self):
 
