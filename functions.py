@@ -13,15 +13,16 @@ def miniConvert(lig, col):
 def resetLevel(level, dire, tunnel):
     for col in range(15):
         for lig in range(15):
+
+            if level[lig][col] == 14:
+                level[lig][col] = 13
             if tunnel:
-                if level[lig][col] == 14:
-                    level[lig][col] = 13
 
                 if level[lig][col] == 11:
                     level[lig][col] = 12
                 elif level[lig][col] == 12:
                     level[lig][col] = 11
-    
+
     for _ in range(dire):
         for col in range(15):
             for lig in range(15):
@@ -35,6 +36,7 @@ def resetLevel(level, dire, tunnel):
                     level[lig][col] = 9
 
     return level
+
 
 def levelSetStart(level):
     for col in range(15):

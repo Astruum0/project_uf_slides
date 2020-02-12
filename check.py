@@ -2,6 +2,7 @@ import pygame
 from bot import Bot
 from functions import levelSetStart
 from graphics import engine
+from adverts import non_valid
 import json
 import copy
 import time
@@ -47,8 +48,9 @@ def checkLevel(lvl):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 checking = False
-                return "IMPOSSIBLE"
+                return False
         if len(listBots) == 0:
+            non_valid()
             return False
         graphic.show(win, level, listBots[0], 0, False, False, False)
         i = 0

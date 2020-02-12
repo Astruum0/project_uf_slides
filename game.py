@@ -440,16 +440,16 @@ class Game:
                     and self.caracter.direction != "STAY"
                 ):
                     self.switchTunnel = not self.switchTunnel
-                    if self.level[lig][col] == 13:
-                        self.level[lig][col] = 14
-                    elif self.level[lig][col] == 14:
-                        self.level[lig][col] = 13
                     for col in range(15):
                         for lig in range(15):
                             if self.level[lig][col] == 11:
                                 self.level[lig][col] = 12
                             elif self.level[lig][col] == 12:
                                 self.level[lig][col] = 11
+                            if self.level[lig][col] == 13:
+                                self.level[lig][col] = 14
+                            elif self.level[lig][col] == 14:
+                                self.level[lig][col] = 13
 
     def clearLevel(self):
         self.level = copy.deepcopy(self.pattern)
