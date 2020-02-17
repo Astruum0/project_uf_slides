@@ -26,6 +26,7 @@ class Game:
         self.game = False
         self.editor = False
         self.pause = False
+        self.indexMoving = 0
         joysticks = []
 
         with open("level_data/normal_level.json") as f:
@@ -91,16 +92,30 @@ class Game:
                     self.caracter.reset()
                     self.level = self.list_level[self.i]
 
-            if keys[K_LEFT] and self.caracter.immobile():
+            if keys[K_LEFT] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("LEFT", self.level)
-            elif keys[K_RIGHT] and self.caracter.immobile():
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif keys[K_RIGHT] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("RIGHT", self.level)
-            elif keys[K_DOWN] and self.caracter.immobile():
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif keys[K_DOWN] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("DOWN", self.level)
-            elif keys[K_UP] and self.caracter.immobile():
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif keys[K_UP] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("UP", self.level)
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif (
+                not (keys[K_LEFT] and keys[K_RIGHT] and keys[K_DOWN] and keys[K_UP])
+                and self.indexMoving > 3
+            ):
+                self.caracter.canMove = True
+            self.indexMoving += 1
             ###MANETTE###
-            elif event.type == pygame.JOYHATMOTION and self.caracter.immobile():
+            if event.type == pygame.JOYHATMOTION and self.caracter.immobile():
                 if event.value == (-1, 0):
                     self.caracter.setDir("LEFT", self.level)
                 if event.value == (1, 0):
@@ -220,16 +235,30 @@ class Game:
                     self.test = False
                     return
 
-            if keys[K_LEFT] and self.caracter.immobile():
+            if keys[K_LEFT] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("LEFT", self.level)
-            elif keys[K_RIGHT] and self.caracter.immobile():
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif keys[K_RIGHT] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("RIGHT", self.level)
-            elif keys[K_DOWN] and self.caracter.immobile():
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif keys[K_DOWN] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("DOWN", self.level)
-            elif keys[K_UP] and self.caracter.immobile():
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif keys[K_UP] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("UP", self.level)
+                self.caracter.canMove = False
+                self.indexMoving = 0
+            elif (
+                not (keys[K_LEFT] and keys[K_RIGHT] and keys[K_DOWN] and keys[K_UP])
+                and self.indexMoving > 5
+            ):
+                self.caracter.canMove = True
+            self.indexMoving += 1
             ###MANETTE###
-            elif event.type == pygame.JOYHATMOTION and self.caracter.immobile():
+            if event.type == pygame.JOYHATMOTION and self.caracter.immobile():
                 if event.value == (-1, 0):
                     self.caracter.setDir("LEFT", self.level)
                 if event.value == (1, 0):
@@ -457,5 +486,6 @@ class Game:
 
 if __name__ == "__main__":
     game = Game()
-    game.runGame()
+    game.level = game.list_level[7]
+    game.testLevel()
     pygame.quit()
