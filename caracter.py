@@ -4,7 +4,6 @@ from graphics import engine
 
 
 class Caracter:
-
     def __init__(self):
         self.xstart = 0
         self.ystart = 0
@@ -13,6 +12,8 @@ class Caracter:
         self.vel = 10
         self.taille = 40
         self.direction = "STAY"
+
+        self.canMove = True
 
     def move(self, direction):
         if direction == "LEFT":
@@ -35,15 +36,31 @@ class Caracter:
                     self.y = self.ystart
 
     def setDir(self, direction, level):
-        if level[self.y//40][self.x//40] != 12:
-            if (direction == "LEFT" and self.x == 0) or (direction == "LEFT" and level[self.y//40][(self.x//40) - 1] != 1 and level[self.y//40][(self.x//40) - 1] != 12):
+        if level[self.y // 40][self.x // 40] != 12:
+            if (direction == "LEFT" and self.x == 0) or (
+                direction == "LEFT"
+                and level[self.y // 40][(self.x // 40) - 1] != 1
+                and level[self.y // 40][(self.x // 40) - 1] != 12
+            ):
                 self.direction = direction
-            if (direction == "RIGHT" and self.x == 560) or (direction == "RIGHT" and level[self.y//40][(self.x//40) + 1] != 1 and level[self.y//40][(self.x//40) + 1] != 12):
+            if (direction == "RIGHT" and self.x == 560) or (
+                direction == "RIGHT"
+                and level[self.y // 40][(self.x // 40) + 1] != 1
+                and level[self.y // 40][(self.x // 40) + 1] != 12
+            ):
                 self.direction = direction
-        if level[self.y//40][self.x//40] != 11:
-            if (direction == "UP" and self.y == 0) or (direction == "UP" and level[(self.y//40) - 1][self.x//40] != 1 and level[(self.y//40) - 1][self.x//40] != 11):
+        if level[self.y // 40][self.x // 40] != 11:
+            if (direction == "UP" and self.y == 0) or (
+                direction == "UP"
+                and level[(self.y // 40) - 1][self.x // 40] != 1
+                and level[(self.y // 40) - 1][self.x // 40] != 11
+            ):
                 self.direction = direction
-            if (direction == "DOWN" and self.y == 560) or (direction == "DOWN" and level[(self.y//40) + 1][self.x//40] != 1 and level[(self.y//40) + 1][self.x//40] != 11):
+            if (direction == "DOWN" and self.y == 560) or (
+                direction == "DOWN"
+                and level[(self.y // 40) + 1][self.x // 40] != 1
+                and level[(self.y // 40) + 1][self.x // 40] != 11
+            ):
                 self.direction = direction
 
     def immobile(self):
@@ -74,11 +91,35 @@ class Caracter:
         for col in range(15):
             for lig in range(15):
                 x, y = Convert(lig, col)
-                if col < 14 and self.direction == "RIGHT" and (level[lig][col + 1] == 1 or level[lig][col + 1] == 12) and x == self.x and y == self.y:
+                if (
+                    col < 14
+                    and self.direction == "RIGHT"
+                    and (level[lig][col + 1] == 1 or level[lig][col + 1] == 12)
+                    and x == self.x
+                    and y == self.y
+                ):
                     self.direction = "STAY"
-                if col > 0 and self.direction == "LEFT" and (level[lig][col - 1] == 1 or level[lig][col - 1] == 12)and x == self.x and y == self.y:
+                if (
+                    col > 0
+                    and self.direction == "LEFT"
+                    and (level[lig][col - 1] == 1 or level[lig][col - 1] == 12)
+                    and x == self.x
+                    and y == self.y
+                ):
                     self.direction = "STAY"
-                if lig < 14 and self.direction == "DOWN" and (level[lig + 1][col] == 1 or level[lig + 1][col] == 11) and x == self.x and y == self.y:
+                if (
+                    lig < 14
+                    and self.direction == "DOWN"
+                    and (level[lig + 1][col] == 1 or level[lig + 1][col] == 11)
+                    and x == self.x
+                    and y == self.y
+                ):
                     self.direction = "STAY"
-                if lig > 0 and self.direction == "UP" and (level[lig - 1][col] == 1 or level[lig - 1][col] == 11) and x == self.x and y == self.y:
+                if (
+                    lig > 0
+                    and self.direction == "UP"
+                    and (level[lig - 1][col] == 1 or level[lig - 1][col] == 11)
+                    and x == self.x
+                    and y == self.y
+                ):
                     self.direction = "STAY"
