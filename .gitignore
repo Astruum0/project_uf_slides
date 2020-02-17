@@ -33,3 +33,4 @@ __pycache__/json_manipulation.cpython-37.pyc
 __pycache__/pause.cpython-37.pyc
 __pycache__/saveLevel.cpython-37.pyc
 __pycache__/timer.cpython-37.pyc
+*.pyc
