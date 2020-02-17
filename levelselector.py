@@ -14,6 +14,9 @@ def levelSelector():
     blocks = [
         pygame.image.load("templates/templatesmini/brick.png"),
         pygame.image.load("templates/templatesmini/snow.png"),
+        pygame.image.load("templates/templatesmini/finishflag.png"),
+        pygame.image.load("templates/templatesmini/start.png"),
+        pygame.image.load("templates/templatesmini/lava.png"),
     ]
     bumpers = [
         pygame.image.load("templates/templatesmini/ArrowUp.png"),
@@ -38,7 +41,8 @@ def levelSelector():
             self.level = level
             self.x = 100
             self.i = i
-            self.font = pygame.font.Font("fonts/PixelOperatorMono8-Bold.ttf", 16)
+            self.font = pygame.font.Font(
+                "fonts/PixelOperatorMono8-Bold.ttf", 16)
             if typelevel == "normal":
                 self.y = 50 + 150 * listLevels.nbrNormalLevels
                 self.typeLevel = "normal"
@@ -59,19 +63,13 @@ def levelSelector():
                     if self.level[lig][col] == 1:
                         fen.blit(blocks[0], (self.x + x, self.y + y))
                     if self.level[lig][col] == 2:
-                        pygame.draw.rect(
-                            fen, (0, 237, 0), (self.x + x, self.y + y, 10, 10)
-                        )
+                        fen.blit(blocks[3], (self.x + x, self.y + y))
                     if self.level[lig][col] == 3:
-                        pygame.draw.rect(
-                            fen, (237, 0, 0), (self.x + x, self.y + y, 10, 10)
-                        )
+                        fen.blit(blocks[2], (self.x + x, self.y + y))
                     if self.level[lig][col] == 4:
                         fen.blit(blocks[1], (self.x + x, self.y + y))
                     if self.level[lig][col] == 5:
-                        pygame.draw.rect(
-                            fen, (58, 2, 13), (self.x + x, self.y + y, 10, 10)
-                        )
+                        fen.blit(blocks[4], (self.x + x, self.y + y))
                     if self.level[lig][col] == 6:
                         fen.blit(bumpers[0], (self.x + x, self.y + y))
                     if self.level[lig][col] == 7:
@@ -90,8 +88,10 @@ def levelSelector():
                         fen.blit(switchers[2], (self.x + x, self.y + y))
                     if self.level[lig][col] == 14:
                         fen.blit(switchers[3], (self.x + x, self.y + y))
-            pygame.draw.rect(fen, (255, 255, 255), (self.x, self.y, 400, 150), 1)
-            pygame.draw.rect(fen, (255, 255, 255), (self.x, self.y, 150, 150), 1)
+            pygame.draw.rect(fen, (255, 255, 255),
+                             (self.x, self.y, 400, 150), 1)
+            pygame.draw.rect(fen, (255, 255, 255),
+                             (self.x, self.y, 150, 150), 1)
 
             if buttons:
                 fen.blit(buttons[6], (self.x + 150, self.y + 100))
@@ -137,7 +137,8 @@ def levelSelector():
     for data in normal_levels:
         if data["level_name"] != "pattern" and data["level_name"] != "Secret Level":
             listNormalLevel.append(
-                listLevels(data["level_name"], data["level_composition"], "normal", i)
+                listLevels(data["level_name"],
+                           data["level_composition"], "normal", i)
             )
         i += 1
 
@@ -147,7 +148,8 @@ def levelSelector():
     for data in editor_levels:
         if data["level_name"] != "pattern":
             listPersoLevel.append(
-                listLevels(data["level_name"], data["level_composition"], "perso", i)
+                listLevels(data["level_name"],
+                           data["level_composition"], "perso", i)
             )
         i += 1
 
@@ -214,7 +216,8 @@ def levelSelector():
                     for lvl in listPersoLevel:
                         if event.pos[1] > lvl.y and event.pos[1] < lvl.y + 150:
                             if event.pos[0] > 450 and event.pos[1] > lvl.y + 100:
-                                listPersoLevel = deleteLevel(listPersoLevel, lvl.i)
+                                listPersoLevel = deleteLevel(
+                                    listPersoLevel, lvl.i)
                             elif (
                                 event.pos[0] > 250
                                 and event.pos[0] < 300
