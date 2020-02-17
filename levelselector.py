@@ -15,6 +15,9 @@ def levelSelector():
     blocks = [
         pygame.image.load("templates/templatesmini/brick.png"),
         pygame.image.load("templates/templatesmini/snow.png"),
+        pygame.image.load("templates/templatesmini/finishflag.png"),
+        pygame.image.load("templates/templatesmini/start.png"),
+        pygame.image.load("templates/templatesmini/lava.png"),
     ]
     bumpers = [
         pygame.image.load("templates/templatesmini/ArrowUp.png"),
@@ -61,19 +64,13 @@ def levelSelector():
                     if self.level[lig][col] == 1:
                         fen.blit(blocks[0], (self.x + x, self.y + y))
                     if self.level[lig][col] == 2:
-                        pygame.draw.rect(
-                            fen, (0, 237, 0), (self.x + x, self.y + y, 10, 10)
-                        )
+                        fen.blit(blocks[3], (self.x + x, self.y + y))
                     if self.level[lig][col] == 3:
-                        pygame.draw.rect(
-                            fen, (237, 0, 0), (self.x + x, self.y + y, 10, 10)
-                        )
+                        fen.blit(blocks[2], (self.x + x, self.y + y))
                     if self.level[lig][col] == 4:
                         fen.blit(blocks[1], (self.x + x, self.y + y))
                     if self.level[lig][col] == 5:
-                        pygame.draw.rect(
-                            fen, (58, 2, 13), (self.x + x, self.y + y, 10, 10)
-                        )
+                        fen.blit(blocks[4], (self.x + x, self.y + y))
                     if self.level[lig][col] == 6:
                         fen.blit(bumpers[0], (self.x + x, self.y + y))
                     if self.level[lig][col] == 7:
