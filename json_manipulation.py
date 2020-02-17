@@ -4,7 +4,7 @@ import json
 def importToJson(lvl, name):
     with open("level_data/editor_level.json", "r") as f:
         list_levels = json.load(f)
-    level = {"level_name": name, "level_composition": lvl}
+    level = {"level_name": name, "WR": 0, "level_composition": lvl}
     list_levels.append(level)
     with open("level_data/editor_level.json", "w") as f:
         json.dump(list_levels, f)
@@ -67,4 +67,16 @@ def saveTime(time, name, lN):
 
 def orderScoreboard(sb):
     return sorted(sb, key=lambda i: i["time"])
+
+
+def saveLevelTime(level, time, type_):
+    with open("level_data/" + type_ + "_level.json", "r") as f:
+        list_levels = json.load(f)
+    for lvl in list_levels:
+        if lvl["level_composition"] == level:
+            print("ALLO ?")
+            if lvl["WR"] > time or lvl["WR"] == 0:
+                lvl["WR"] = time
+    with open("level_data/" + type_ + "_level.json", "w") as f:
+        json.dump(list_levels, f)
 

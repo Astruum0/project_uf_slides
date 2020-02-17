@@ -8,6 +8,7 @@ from saveLevel import saveLevel
 from pause import pausemenu
 from timer import Timer
 from endScreen import endScreen
+from json_manipulation import saveLevelTime
 import copy
 import json
 import time
@@ -58,7 +59,8 @@ class Game:
         self.game = True
         self.editor = False
         self.test = False
-        self.timer = Timer(0, 625)
+        self.timerGlob = Timer(0, 625)
+        self.timerLevel = Timer(0, 600)
         self.win = pygame.display.set_mode((600, 650))
         self.level = self.list_level[self.i]
         self.caracter.setStart(self.level)
@@ -69,20 +71,24 @@ class Game:
             keys = pygame.key.get_pressed()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.timer.refresh()
+                    self.timerGlob.refresh()
+                    self.timerLevel.refresh()
                     self.game = False
                     return
 
             if keys[K_ESCAPE]:
-                self.timer.pause()
+                self.timerGlob.pause()
+                self.timerLevel.pause()
                 output = pausemenu(self.win)
                 if output == "QUIT":
                     self.game = False
                     return
                 if output == "RESUME":
-                    self.timer.resume()
+                    self.timerGlob.resume()
+                    self.timerLevel.resume()
                 if output == "RESTART":
-                    self.timer.resume()
+                    self.timerGlob.resume()
+                    self.timerLevel.resume()
                     self.level = resetLevel(
                         self.level, self.switchDir, self.switchTunnel
                     )
@@ -149,8 +155,10 @@ class Game:
                 self.test,
             )
 
-            self.timer.update()
-            self.timer.show(self.win)
+            self.timerGlob.update()
+            self.timerLevel.update()
+            self.timerGlob.show(self.win)
+            self.timerLevel.show(self.win)
 
             pygame.display.update()
 
@@ -204,7 +212,6 @@ class Game:
                         self.testLevel()
                         self.win = pygame.display.set_mode((650, 650))
                     if event.pos[0] > 300 and event.pos[0] < 600:
-                        print(self.level)
                         if checkLevel(self.level) == "FINISH":
                             saveLevel(self.level)
 
@@ -220,8 +227,9 @@ class Game:
             )
             pygame.display.update()
 
-    def testLevel(self):
+    def testLevel(self, type_="normal"):
         self.win = pygame.display.set_mode((600, 600))
+        self.timerLevel = Timer(0, 600)
         self.test = True
         self.game = False
         self.caracter.setStart(self.level)
@@ -293,7 +301,7 @@ class Game:
 
             self.indexFrame += 1
             self.caracter.update(self.level)
-            self.updateBlock()
+            self.updateBlock(type_)
             self.engine.show(
                 self.win,
                 self.level,
@@ -304,9 +312,10 @@ class Game:
                 self.test,
             )
 
+            self.timerLevel.update()
             pygame.display.update()
 
-    def updateBlock(self):
+    def updateBlock(self, type_):
         for col in range(15):
             for lig in range(15):
                 x, y = Convert(lig, col)
@@ -327,14 +336,17 @@ class Game:
                     if self.editor:
                         self.runEditor()
                     elif not self.game:
+                        saveLevelTime(self.level, self.timerLevel.getTime(), type_)
                         return
                     if self.game:
                         self.i += 1
+                        saveLevelTime(self.level, self.timerLevel.getTime(), "normal")
+                        self.timerLevel.refresh()
                         try:
                             self.level = self.list_level[self.i]
                         except:
                             self.i = 0
-                            endScreen(self.timer.getTime())
+                            endScreen(self.timerGlob.getTime())
                             self.game = False
                             return
                         self.caracter.setStart(self.level)
