@@ -70,33 +70,69 @@ class Game:
 
             keys = pygame.key.get_pressed()
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == QUIT:
                     self.timerGlob.refresh()
                     self.timerLevel.refresh()
                     self.game = False
                     return
 
-            if keys[K_ESCAPE]:
-                self.timerGlob.pause()
-                self.timerLevel.pause()
-                output = pausemenu(self.win)
-                if output == "QUIT":
-                    self.game = False
-                    return
-                if output == "RESUME":
-                    self.timerGlob.resume()
-                    self.timerLevel.resume()
-                if output == "RESTART":
-                    self.timerGlob.resume()
-                    self.timerLevel.resume()
-                    self.level = resetLevel(
-                        self.level, self.switchDir, self.switchTunnel
-                    )
-                    self.switchDir = 0
-                    self.switchTunnel = False
-                    self.indexFrame = 0
-                    self.caracter.reset()
-                    self.level = self.list_level[self.i]
+                if (
+                    event.type == MOUSEBUTTONDOWN
+                    and event.pos[1] > 600
+                    and event.pos[0] > 500
+                ):
+                    if event.pos[0] < 550:
+                        self.level = resetLevel(
+                            self.level, self.switchDir, self.switchTunnel
+                        )
+                        self.switchDir = 0
+                        self.switchTunnel = False
+                        self.indexFrame = 0
+                        self.caracter.reset()
+                        self.level = self.list_level[self.i]
+                    else:
+                        self.timerGlob.pause()
+                        self.timerLevel.pause()
+                        output = pausemenu(self.win)
+                        if output == "QUIT":
+                            self.game = False
+                            return
+                        if output == "RESUME":
+                            self.timerGlob.resume()
+                            self.timerLevel.resume()
+                        if output == "RESTART":
+                            self.timerGlob.resume()
+                            self.timerLevel.resume()
+                            self.level = resetLevel(
+                                self.level, self.switchDir, self.switchTunnel
+                            )
+                            self.switchDir = 0
+                            self.switchTunnel = False
+                            self.indexFrame = 0
+                            self.caracter.reset()
+                            self.level = self.list_level[self.i]
+
+                if keys[K_ESCAPE]:
+                    self.timerGlob.pause()
+                    self.timerLevel.pause()
+                    output = pausemenu(self.win)
+                    if output == "QUIT":
+                        self.game = False
+                        return
+                    if output == "RESUME":
+                        self.timerGlob.resume()
+                        self.timerLevel.resume()
+                    if output == "RESTART":
+                        self.timerGlob.resume()
+                        self.timerLevel.resume()
+                        self.level = resetLevel(
+                            self.level, self.switchDir, self.switchTunnel
+                        )
+                        self.switchDir = 0
+                        self.switchTunnel = False
+                        self.indexFrame = 0
+                        self.caracter.reset()
+                        self.level = self.list_level[self.i]
 
             if keys[K_LEFT] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("LEFT", self.level)
@@ -242,6 +278,42 @@ class Game:
                 if event.type == QUIT:
                     self.test = False
                     return
+
+                if (
+                    event.type == MOUSEBUTTONDOWN
+                    and event.pos[1] > 600
+                    and event.pos[0] > 500
+                ):
+                    if event.pos[0] < 550:
+                        self.level = resetLevel(
+                            self.level, self.switchDir, self.switchTunnel
+                        )
+                        self.switchDir = 0
+                        self.switchTunnel = False
+                        self.indexFrame = 0
+                        self.caracter.reset()
+                        self.level = self.list_level[self.i]
+                    else:
+                        self.timerGlob.pause()
+                        self.timerLevel.pause()
+                        output = pausemenu(self.win)
+                        if output == "QUIT":
+                            self.game = False
+                            return
+                        if output == "RESUME":
+                            self.timerGlob.resume()
+                            self.timerLevel.resume()
+                        if output == "RESTART":
+                            self.timerGlob.resume()
+                            self.timerLevel.resume()
+                            self.level = resetLevel(
+                                self.level, self.switchDir, self.switchTunnel
+                            )
+                            self.switchDir = 0
+                            self.switchTunnel = False
+                            self.indexFrame = 0
+                            self.caracter.reset()
+                            self.level = self.list_level[self.i]
 
             if keys[K_LEFT] and self.caracter.immobile() and self.caracter.canMove:
                 self.caracter.setDir("LEFT", self.level)
