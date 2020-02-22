@@ -74,7 +74,6 @@ def saveLevelTime(level, time, type_):
         list_levels = json.load(f)
     for lvl in list_levels:
         if lvl["level_composition"] == level:
-            print("ALLO ?")
             if lvl["WR"] > time or lvl["WR"] == 0:
                 lvl["WR"] = time
     with open("level_data/" + type_ + "_level.json", "w") as f:

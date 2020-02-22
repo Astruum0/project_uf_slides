@@ -2,7 +2,7 @@ import pygame
 from bot import Bot
 from functions import levelSetStart
 from graphics import engine
-from adverts import non_valid
+from adverts import non_valid, hard_level
 import json
 import copy
 import time
@@ -100,7 +100,8 @@ def checkLevel(lvl):
                 pathSolving = True
             i += 1
         if time.time() - start >= 60:
-            return "HARD"
+            hard_level()
+            return "FINISH"
         pygame.display.update()
 
     indexDir = 0

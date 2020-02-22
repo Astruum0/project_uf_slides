@@ -144,7 +144,7 @@ class Game:
 
             self.indexFrame += 1
             self.caracter.update(self.level)
-            self.updateBlock()
+            self.updateBlock("normal")
             self.engine.show(
                 self.win,
                 self.level,
