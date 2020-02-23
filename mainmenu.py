@@ -1,6 +1,6 @@
 import pygame
 import time
-
+from tutorial_rules import tutorial
 from moviepy.editor import VideoFileClip
 from game import Game
 from levelselector import levelSelector
@@ -97,7 +97,8 @@ def main_menu():
                 game.runGame()
             else:
                 play_select[0] = True
-                PlayImg = pygame.image.load("menuframes/PlayButton_Neutral.png")
+                PlayImg = pygame.image.load(
+                    "menuframes/PlayButton_Neutral.png")
 
             ###PLAY BUTTON END###
             ###EDITOR BUTTON MOUSEOVER AND ACTION###
@@ -113,7 +114,8 @@ def main_menu():
                 if play_select[1] and soundOn:
                     pygame.mixer.Sound.play(select_sound)
                     play_select[1] = False
-                EditorImg = pygame.image.load("menuframes/EditorButton_Hover.png")
+                EditorImg = pygame.image.load(
+                    "menuframes/EditorButton_Hover.png")
             elif (
                 event.type == pygame.MOUSEBUTTONDOWN
                 and event.pos[0] > PlusX
@@ -128,7 +130,8 @@ def main_menu():
                 game.runEditor()
             else:
                 play_select[1] = True
-                EditorImg = pygame.image.load("menuframes/EditorButton_Neutral.png")
+                EditorImg = pygame.image.load(
+                    "menuframes/EditorButton_Neutral.png")
 
             ###EDITOR BUTTON END###
             ###SELECT LEVEL BUTTON MOUSEOVER AND ACTION###
@@ -144,7 +147,8 @@ def main_menu():
                 if play_select[2] and soundOn:
                     pygame.mixer.Sound.play(select_sound)
                     play_select[2] = False
-                SelectLevelImg = pygame.image.load("menuframes/SelectLevel_Hover.png")
+                SelectLevelImg = pygame.image.load(
+                    "menuframes/SelectLevel_Hover.png")
 
             elif (
                 event.type == pygame.MOUSEBUTTONDOWN
@@ -158,7 +162,8 @@ def main_menu():
                 levelSelector()
             else:
                 play_select[2] = True
-                SelectLevelImg = pygame.image.load("menuframes/SelectLevel_Neutral.png")
+                SelectLevelImg = pygame.image.load(
+                    "menuframes/SelectLevel_Neutral.png")
 
             ###SELECT LEVEL END###
             ###RULES MOUSEOVER AND ACTION###
@@ -185,7 +190,7 @@ def main_menu():
             ):
                 if soundOn:
                     pygame.mixer.Sound.play(click_sound)
-                print("RULES")
+                tutorial()
             else:
                 play_select[3] = True
                 RulesImg = pygame.image.load("menuframes/Rules_Neutral.png")
@@ -218,7 +223,8 @@ def main_menu():
                 MenuRunning = False
             else:
                 play_select[4] = True
-                QuitImg = pygame.image.load("menuframes/QuitButton_Neutral.png")
+                QuitImg = pygame.image.load(
+                    "menuframes/QuitButton_Neutral.png")
 
             ### SOUND ###
             if (
@@ -246,7 +252,8 @@ def main_menu():
                 if play_select[4] and soundOn:
                     pygame.mixer.Sound.play(select_sound)
                     play_select[4] = False
-                LeaderBoardImg = pygame.image.load("menuframes/leaderboard_hover.png")
+                LeaderBoardImg = pygame.image.load(
+                    "menuframes/leaderboard_hover.png")
 
             elif (
                 event.type == pygame.MOUSEBUTTONDOWN
@@ -260,7 +267,8 @@ def main_menu():
                 leaderboard()
             else:
                 play_select[4] = True
-                LeaderBoardImg = pygame.image.load("menuframes/leaderboard.png")
+                LeaderBoardImg = pygame.image.load(
+                    "menuframes/leaderboard.png")
 
         gameDisplay.blit(PlayImg, (PlusX, PlayImgPlusY))
         gameDisplay.blit(EditorImg, (PlusX, EditorImgPlusY))
@@ -278,5 +286,5 @@ def main_menu():
     pygame.quit()
 
 
-main_menu()
-# intro_video()
+# main_menu()
+intro_video()
