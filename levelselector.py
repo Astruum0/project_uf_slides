@@ -97,10 +97,14 @@ def levelSelector():
                 fen.blit(buttons[5], (self.x + 350, self.y + 100))
             textname = self.font.render(self.name, True, (255, 255, 255))
             fen.blit(textname, (self.x + 275 - (8 * len(self.name)), self.y + 60))
+
             recordText = self.font.render(
                 "WR : {}".format(convertShortTime(self.wr)), True, (245, 176, 65)
             )
-            fen.blit(recordText, (self.x + 165, self.y + 120))
+            if self.typeLevel == "normal":
+                fen.blit(recordText, (self.x + 165, self.y + 120))
+            else:
+                fen.blit(recordText, (self.x + 165, self.y + 80))
 
     def scroll(dir, levels):
         for lvl in levels:
